@@ -1,0 +1,31 @@
+branches:
+  only:
+  - master
+
+sudo: required
+
+services:
+  - docker
+dist: trusty
+
+env:
+  COMPOSE_VERSION: 1.24.0
+
+before_install:
+  # Docker Compose Install 
+  - curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+install:
+  # Docker Tests
+  - docker-compose -f docker-compose.development.yml build
+  - docker-compose up -d
+
+before_script:
+  # Startup the app
+  - curl http://localhost:81/
+
+after_script:
+  - docker-compose stop
+  - docker-compose rm -f
