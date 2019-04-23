@@ -1,0 +1,9 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+
+install:
+  - docker version
+
+build_script:
+  - choco install docker-compose
+  - docker-compose -f docker-compose.development.yml build 
