@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+    waf:
+        build: waf
+        restart: always
+        depends_on: 
+         - app
+        ports:
+            - "127.0.0.1:81:80"
+        networks:
+            - wafnetwork
+    app:
+        build: app
+        restart: always
+        networks:       
+          - wafnetwork
+networks:
+  wafnetwork:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
