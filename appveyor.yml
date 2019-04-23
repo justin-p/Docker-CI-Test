@@ -5,6 +5,5 @@ install:
   - docker version
 
 build_script:
-  - docker --version
   - docker-compose --version  
   - docker-compose -f docker-compose.development.yml build 
