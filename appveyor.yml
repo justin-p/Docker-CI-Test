@@ -5,7 +5,7 @@ install:
   - docker version
 
 build_script:
-  - docker -v
+  - docker --version
   - [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
   - Invoke-WebRequest "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Windows-x86_64.exe" -UseBasicParsing -OutFile $Env:ProgramFiles\Docker\docker-compose.exe
   - docker-compose -f docker-compose.development.yml build 
