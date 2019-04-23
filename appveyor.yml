@@ -6,5 +6,5 @@ install:
 
 build_script:
   - docker --version
-  - Invoke-WebRequest "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Windows-x86_64.exe" -UseBasicParsing -OutFile $Env:ProgramFiles\Docker\docker-compose.exe
+  - docker-compose --version  
   - docker-compose -f docker-compose.development.yml build 
