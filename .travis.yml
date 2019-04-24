@@ -26,7 +26,7 @@ before_install:
 install:
   # Docker build
   - docker-compose -f docker-compose.development.yml build
-  - docker-compose -f docker-compose.development.yml up
+  - docker-compose -f docker-compose.development.yml up -d
 
 script:
     - bash tests/travis.test.sh
