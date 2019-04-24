@@ -29,7 +29,7 @@ install:
   - docker-compose -f docker-compose.development.yml up -d
 
 script:
-    - bash tests\travis.test.sh
+    - bash tests/travis.test.sh
 
 after_script:
   - docker-compose stop
