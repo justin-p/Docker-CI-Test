@@ -33,4 +33,4 @@ script:
 
 after_script:
   - docker-compose -f docker-compose.development.yml stop
-  - docker-compose -f docker-compose.development.yml rm
+  - docker-compose -f docker-compose.development.yml rm -f
