@@ -3,11 +3,6 @@ services:
     waf:
         build: src/waf
         restart: always
-        healthcheck: 
-          test: if (($(curl "http://localhost:80/somefile.php?someparam=../../../etc" -s -f -w %{http_code} -o /dev/null)  == 403)); then echo "Request blocked by WAF, Noice!" ;else exit 1; fi
-          timeout: 10s
-          interval: 5s
-          retries: 3
         depends_on: 
          - app
         ports:
