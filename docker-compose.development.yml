@@ -1,7 +1,7 @@
 version: "3.6"
 services:
     waf:
-        build: waf
+        build: src\waf
         restart: always
         depends_on: 
          - app
@@ -10,7 +10,7 @@ services:
         networks:
             - wafnetwork
     app:
-        build: app
+        build: src\app
         restart: always
         networks:       
           - wafnetwork

@@ -1,32 +1,32 @@
 version: "3.7"
 services:
     waf:
-        build: waf
+        build: src\waf
         restart: always
         depends_on: 
          - app
         volumes:
             - type: bind
-              source: ./prod_example/nginx.conf
+              source: ./conf/prod_example/nginx.conf
               target: /etc/nginx/nginx.conf
             - type: bind
-              source: ./prod_example/sites-enabled
+              source: ./conf/prod_example/sites-enabled
               target: /etc/nginx/sites-enabled
             - type: bind                              
-              source: ./prod_example/modsecurity/some.host.name.tld/modsec_includes.conf
+              source: ./conf/prod_example/modsecurity/some.host.name.tld/modsec_includes.conf
               target: /etc/nginx/modsecurity/some.host.name.tld/modsec_includes.conf
             - type: bind                              
-              source: ./prod_example/modsecurity/some.host.name.tld/modsecurity.conf
+              source: ./conf/prod_example/modsecurity/some.host.name.tld/modsecurity.conf
               target: /etc/nginx/modsecurity/some.host.name.tld/modsecurity.conf
             - type: bind
-              source: ./prod_example/modsecurity/some.host.name.tld/rules
+              source: ./conf/prod_example/modsecurity/some.host.name.tld/rules
               target: /etc/nginx/modsecurity/some.host.name.tld/rules
         ports:
             - "127.0.0.1:81:80"
         networks:
             - wafnetwork
     app:
-        build: app
+        build: src\app
         restart: always
         networks:       
           - wafnetwork
