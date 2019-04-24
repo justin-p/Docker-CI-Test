@@ -5,6 +5,11 @@ services:
         restart: always
         depends_on: 
          - app
+        healthcheck:
+           test: ["CMD-SHELL", "if (($(curl -A 'Docker-HealthCheck' "https://localhost:81/SomeFile.php?SomeParam=../../../../etc/passwd" -s -f -w %{http_code} -o /dev/null)  == 403)); then echo "Request blocked by WAF, Noice!" ;else exit 1; fi"]
+           interval: 5s
+           timeout: 10s
+          retries: 3
         volumes:
             - type: bind
               source: ./conf/prod_example/nginx.conf
