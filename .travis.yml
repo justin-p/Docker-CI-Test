@@ -18,12 +18,11 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 install:
-  # Docker Tests
+  # Docker build
   - docker-compose -f docker-compose.development.yml build
-  - docker-compose up -d
+  - docker-compose -f docker-compose.development.yml up -d
 
 before_script:
-  # Startup the app
   - curl http://localhost:81/
 
 after_script:
