@@ -6,7 +6,7 @@ install:
   - cinst docker-compose
 
 build_script:
-  - docker-compose -f docker-compose.windows-development.yml build
+  - docker-compose -f docker-compose.development-windows.yml build
 
 test_script:
-  - docker-compose -f docker-compose.windows-development.yml up
+  - docker-compose -f docker-compose.development-windows.yml up
