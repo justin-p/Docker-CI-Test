@@ -4,12 +4,12 @@ services:
         build: waf
         restart: always
         depends_on: 
-         - app
+         - app-windows
         ports:
             - "127.0.0.1:81:80"
         networks:
             - wafnetwork
-    app:
+    app-windows:
         build: app-windows
         restart: always
         networks:       
