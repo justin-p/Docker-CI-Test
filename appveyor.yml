@@ -1,0 +1,12 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+
+install:
+  - docker version
+  - cinst docker-compose
+
+build_script:
+  - docker-compose -f docker-compose.windows-development.yml build
+
+test_script:
+  - docker-compose -f docker-compose.windows-development.yml up
