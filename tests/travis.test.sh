@@ -1,3 +1,4 @@
 #/bin/bash
-sleep 2m
-if (($(curl "http://localhost:81/somefile.php?someparam=../../../etc" -s -f -w %{http_code} -o /dev/null)  == 403)); then exit 0 ;else exit 200; fi
+sleep 30s
+http_code=($(curl "http://localhost:81/somefile.php?someparam=../../../etc" -s -f -w %{http_code} -o /dev/null)
+if ($http_code == 403)); then exit 0 ;else exit $http_code; fi
