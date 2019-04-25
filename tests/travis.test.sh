@@ -3,8 +3,8 @@ echo "[+] - Checking if our WAF is up."
 for I in 1 2 3 4 5
 do
 	http_code=$(curl "http://localhost:81/SomeFile.php?SomeParam=HelloWorld" -s -f -w %{http_code} -o /dev/null)
-	if (($http_code == 200)); then 
-		echo "[+] - We got a $http_code. Our WAF is up!"; 
+	if (($http_code == 404)); then 
+		echo "[+] - We got a $http_code. This is correct since we dont host any files. Our WAF is up!"; 
 		break
   	fi
 	echo "[!] - We got a $http_code. Our WAF seems to be down. Check $I out of 5"; 
