@@ -1,17 +1,18 @@
 #/bin/bash
 echo "[ ] Checking if our WAF is up."
-for I in 1 2 3 4 5 6 7 8 9 10
-do
+I=1
+N=20
+while [ "$I" -le "$N" ]; do	
 	http_code=$(curl "http://localhost:81/SomeFile.php?SomeParam=HelloWorld" -s -f -w %{http_code} -m 1 -o /dev/null)
 	if (($http_code == 404)); then 
 	echo "    [+] We got a $http_code. This is correct since we dont host any files.";
 		break
   	fi
-	echo "    [!] We got a $http_code. Our WAF seems to be down. Check $I out of 20"; 
+	echo "    [!] We got a $http_code. Our WAF seems to be down. Check $I out of $N"; 
+	I=$(($I + 1))
 	sleep 0.5
-	if (($I == 5)); then
-		echo "[ ] 	"	
-		echo "    [!] Check counter $I out of 20. Killing test."; 		
+	if (($I == $N)); then
+		echo "[!] Check counter $I out of $N. Killing test."; 		
 		exit 10; 
 	fi	
 done
@@ -28,9 +29,9 @@ else
 fi
 path_traversal02_http_code=$(curl "http://localhost:81/SomeFile.asp?SomeParam=SomeValue" -H 'Cookie: PHPSESSID%3D%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2froot%2F%2ehtpasswd' -s -f -w %{http_code} -m 10 -o /dev/null)
 if (($path_traversal02_http_code == 403)); then 
-	echo "        [+] We got a $path_traversal02_http_code on Path Traversal #02." ; 
+	echo "        [+] Path Traversal - We got a $path_traversal02_http_code on Path Traversal #02." ; 
 else 
-	echo "        [!] We got a $path_traversal02_http_code on Path Traversal #02.";
+	echo "        [!] Path Traversal - We got a $path_traversal02_http_code on Path Traversal #02.";
 	echo "[!] Path Traversal - Our WAF did NOT block all requests :("; 
 	exit 22; 
 fi
