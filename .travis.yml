@@ -35,5 +35,7 @@ script:
     - bash tests/travis.test.sh
 
 after_script:
+  - docker logs docker-ci-test_waf_1
+  - docker logs docker-ci-test_app_1
   - docker-compose -f docker-compose.development.yml stop
   - docker-compose -f docker-compose.development.yml rm -f
