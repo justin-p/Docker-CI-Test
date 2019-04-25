@@ -1,4 +1,4 @@
-language: ruby
+language: bash
 
 branches:
   only:
@@ -28,9 +28,12 @@ install:
   - docker-compose -f docker-compose.development.yml build
   - docker-compose -f docker-compose.development.yml up -d
 
+before_script:
+    - chmod +x tests/travis.test.sh
+
 script:
     - bash tests/travis.test.sh
 
 after_script:
-  - docker-compose stop
-  - docker-compose rm -f
+  - docker-compose -f docker-compose.development.yml stop
+  - docker-compose -f docker-compose.development.yml rm -f
