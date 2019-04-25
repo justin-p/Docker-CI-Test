@@ -1,14 +1,5 @@
 version: "3.6"
 services:
-    waf:
-        build: src/waf
-        restart: always
-        depends_on: 
-         - app
-        ports:
-            - "127.0.0.1:81:80"
-        networks:
-            - wafnetwork
     app:
         build: src/app
         restart: always
